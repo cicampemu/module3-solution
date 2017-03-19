@@ -13,18 +13,21 @@
     controller.searchTerm = "";
 
     controller.searchFor = function() {
+      // at execution, check if textbox is empty
       if (controller.searchTerm === "") {
         controller.items = [];
         return;
+      } else {
+        var promise = MenuSearchService.getMatchedMenuItems(controller.searchTerm);
+        promise.then(function(response) {
+          controller.items = response;
+          console.log("blah");
+        })
+        .catch(function(error) {
+          console.log("Something went wrong", error);
+        });
       }
-      var promise = MenuSearchService.getMatchedMenuItems(controller.searchTerm);
-      promise.then(function(response) {
-        controller.items = response;
-        console.log("blah");
-      })
-      .catch(function(error) {
-        console.log("Something went wrong", error);
-      });
+      
     };
 
     controller.removeItem = function(index) {
@@ -75,7 +78,7 @@
   function FoundItemListDirectiveController() {
     var list = this;
 
-    // check if the textbox is empty to show "nothing found"
+    // check if the returned array is empty to show "nothing found"
     list.isEmpty = function() {
       if(list.found != undefined && list.found.length === 0) {
         return true;
