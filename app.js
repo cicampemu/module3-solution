@@ -65,18 +65,19 @@
         found: '<',
         onRemove: '&'
       },
-      controller: FoundItemsDirectiveController,
+      controller: FoundItemListDirectiveController,
       controllerAs: 'list',
       bindToController: true
     };
     return ddo;
   }
 
-  function FoundItemsDirectiveController() {
+  function FoundItemListDirectiveController() {
     var list = this;
 
+    // check if the textbox is empty to show "nothing found"
     list.isEmpty = function() {
-      if(list.found.length === 0) {
+      if(list.found != undefined && list.found.length === 0) {
         return true;
       }
       
